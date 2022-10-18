@@ -1,0 +1,14 @@
+node_modules/
+videos/*
+thumbnails/*
+subtitles/*
+audios/*
+builds/*
+nutflix-linux
+nutflix-macos
+nutflix-win.exe
+nutflix.exe
+ml-dev.json
+.env
+.env.local
+tempUploads/

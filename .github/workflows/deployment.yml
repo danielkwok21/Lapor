@@ -1,0 +1,51 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: SSH into server
+        uses: appleboy/ssh-action@dce9d565de8d876c11d93fa4fe677c0285a66d78
+        env:
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
+        with:
+          host: 172.104.165.240
+          username: daniel
+          password: ${{ secrets.LINODE_PASSWORD }}
+          port: 22
+          envs: PASSPHRASE
+
+          script: |
+            echo "[Confirming directory]"
+            cd ~/
+            pwd
+
+            echo "[Pull from remote]"
+            cd Nutflix
+            git pull https://${{secrets.PAT}}@github.com/${{ github.repository_owner }}/Nutflix.git
+            git checkout master
+
+            echo "[Decrypt & injectsecrets]"
+            export PASSPHRASE
+            ./decrypt_env.sh
+
+            echo "[Change directory]"
+            cd app 
+
+            echo "[Install dependencies]"
+            npm i
+
+            echo "[Stop container]"
+            docker-compose -f production.yml down
+
+            echo "[Start container]"
+            docker-compose -f production.yml up --build --force-recreate -d

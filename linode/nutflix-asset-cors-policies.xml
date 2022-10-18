@@ -1,0 +1,20 @@
+<CORSConfiguration>
+  <CORSRule>
+    <AllowedHeader>*</AllowedHeader>
+
+    <AllowedMethod>GET</AllowedMethod>
+    <AllowedMethod>PUT</AllowedMethod>
+    <AllowedMethod>POST</AllowedMethod>
+    <AllowedMethod>DELETE</AllowedMethod>
+    <AllowedMethod>HEAD</AllowedMethod>
+
+    <AllowedOrigin>http://localhost:4001</AllowedOrigin>
+    <AllowedOrigin>http://localhost:3000</AllowedOrigin>
+    <AllowedOrigin>http://nutflix.danielkwok.com</AllowedOrigin>
+    <AllowedOrigin>https://nutflix.danielkwok.com</AllowedOrigin>
+	
+    <ExposeHeader>*</ExposeHeader>
+
+    <MaxAgeSeconds>3000</MaxAgeSeconds>
+  </CORSRule>
+</CORSConfiguration>
