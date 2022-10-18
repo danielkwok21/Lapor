@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   switch (req.method) {
     case 'POST':
-      await redisClient.del(REDIS_KEYS.videos)
+      await redisClient.del(REDIS_KEYS.images)
       res.json({
         success: true
       })

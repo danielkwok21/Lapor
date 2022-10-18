@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { generateAndUploadThumbnails } from '../../../services/lambda'
-import { getUploadVideoSignedURL, getVideoUrl } from '../../../services/linode'
+import { getUploadImageSignedURL, getImageUrl } from '../../../services/linode'
 import redisClient, { REDIS_KEYS } from '../../../services/redis'
 import { log } from '../../../services/util'
 
@@ -17,7 +17,7 @@ export default async function handler(
 
         /**1. Get video url */
         log.normal(`generating thumbnails...`)
-        const { url } = await getVideoUrl(fileName)
+        const { url } = await getImageUrl(fileName)
 
         /**2. Generate thumbnails via lambda*/
         const response = await generateAndUploadThumbnails({
@@ -29,7 +29,7 @@ export default async function handler(
 
         /**3. Clear cache */
         log.normal(`clearing cache...`)
-        await redisClient.del(REDIS_KEYS.videos)
+        await redisClient.del(REDIS_KEYS.images)
         log.normal(`...clearing cache`)
 
         res.json({

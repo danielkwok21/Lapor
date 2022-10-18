@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { deleteVideo, getVideoUrl } from '../../../services/linode'
+import { deleteImage, getImageUrl } from '../../../services/linode'
 import redisClient, { REDIS_KEYS } from '../../../services/redis'
 import { log } from '../../../services/util'
 
@@ -12,7 +12,7 @@ export default async function handler(
 
     switch (req.method) {
         case 'GET':
-            const { url } = await getVideoUrl(fileName)
+            const { url } = await getImageUrl(fileName)
 
             res.json({
                 url
@@ -26,14 +26,14 @@ export default async function handler(
 
                 let promises = []
 
-                promises.push(deleteVideo({ fileName: fileName }))
+                promises.push(deleteImage({ fileName: fileName }))
 
                 log.normal(`Deleting thumbnail and video...`)
                 await Promise.all(promises)
                 log.normal(`...Deleting thumbnail and video`)
 
                 log.normal(`Clearing cache...`)
-                await redisClient.del(REDIS_KEYS.videos)
+                await redisClient.del(REDIS_KEYS.images)
                 log.normal(`...Clearing cache`)
 
                 res.json({

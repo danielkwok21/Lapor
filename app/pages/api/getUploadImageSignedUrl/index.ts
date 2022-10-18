@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getUploadVideoSignedURL } from '../../../services/linode'
+import { getUploadImageSignedURL } from '../../../services/linode'
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,7 +12,7 @@ export default async function handler(
       try {
         const { fileName } = req.body
 
-        const response = await getUploadVideoSignedURL('video/mp4', fileName)
+        const response = await getUploadImageSignedURL('image/jpg', fileName)
 
         res.json(response)
       } catch (err) {

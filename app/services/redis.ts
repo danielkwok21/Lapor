@@ -19,7 +19,7 @@ redisClient
 export default redisClient
 
 export enum REDIS_KEYS {
-    videos = 'videos',
+    images = 'images',
     userSessions = 'userSessions',
     adminSessions = 'adminSessions'
 }

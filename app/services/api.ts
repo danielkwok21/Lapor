@@ -7,18 +7,8 @@ const headers = {
 
 const apiPath = `${config.URL}/api`
 
-export type GetAllVideosResponse = {
-    [key: string]: {
-        name: string,
-        duration?: number,
-        thumbnails: {
-            name: string,
-            url: string,
-        }[]
-    }
-}
-export function getAllVideos(): Promise<GetAllVideosResponse> {
-    return fetch(`${apiPath}/videos`)
+export function getAllImageUrls(): Promise<string[]> {
+    return fetch(`${apiPath}/images`)
         .then(res => res.json())
 }
 
@@ -106,11 +96,11 @@ export function adminLogin(password: string): Promise<AdminLoginResponse> {
         .then(res => res.json())
 }
 
-export type GetUploadVideoSignedUrlResponse = {
+export type GetUploadImageSignedUrlResponse = {
     url: string
 }
-export function getUploadVideoSignedUrl(fileName: string): Promise<GetUploadVideoSignedUrlResponse> {
-    return fetch(`${apiPath}/getUploadVideoSignedUrl`, {
+export function getUploadImageSignedUrl(fileName: string): Promise<GetUploadImageSignedUrlResponse> {
+    return fetch(`${apiPath}/getUploadImageSignedUrl`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -122,39 +112,23 @@ export function getUploadVideoSignedUrl(fileName: string): Promise<GetUploadVide
         .then(res => res.json())
 }
 
-export function uploadVideoBySignedUrl(url: string, file: File): Promise<any> {
+export function uploadImageBySignedUrl(url: string, file: File): Promise<any> {
     return fetch(url, {
         method: 'PUT',
         body: file,
         headers: {
-            'Content-Type': 'video/mp4'
+            'Content-Type': 'image/jpg'
         }
     })
         .then(res => res.text())
 }
 
-export type GenerateVideoThumbnailsResponse = {
-    url: string
-}
-export function generateVideoThumbnails(fileName: string,): Promise<GenerateVideoThumbnailsResponse> {
-    return fetch(`${apiPath}/generateThumbnails`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            fileName: fileName
-        })
-    })
-        .then(res => res.json())
-}
-
-export type DeleteVideoResponse = {
+export type DeleteImageResponse = {
     success: boolean,
     video: string
 }
-export function deleteVideo(fileName: string,): Promise<DeleteVideoResponse> {
-    return fetch(`${apiPath}/videos/${fileName}`, {
+export function deleteImage(fileName: string,): Promise<DeleteImageResponse> {
+    return fetch(`${apiPath}/images/${fileName}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
