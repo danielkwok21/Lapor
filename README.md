@@ -1,4 +1,4 @@
-# Nutflix
+# Lapor
 
 ## Getting started
 Decrypt [./.env.gpg](./.env.gpg) to get [./env](./env) which contains all secrets + environment variables.
@@ -22,9 +22,7 @@ Refer the rest of the flow at [./app/README.md](./app/README.md)
 ## Directories
 | Path                                             | What is it                                                                         |
 | ------------------------------------------------ | ---------------------------------------------------------------------------------- |
-| [./node](./node)                     | Nextjs entrypoint |
-| [./cloudFunction](./cloudFunction)                     | Google Cloud Function service for thumbnail creation microservice |
-| [./services/updateacl.ts](./updateacl.ts)                 | Custom, one-time only script to update acl of all videos/thumbnails to public-read |
+| [./app](./app)                     | Nextjs entrypoint |
 | [./.env.gpg](./.env.gpg)| Encrypted secret to be used as environment variables
 
 
