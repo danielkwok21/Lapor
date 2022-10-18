@@ -167,6 +167,10 @@ export function clearCache(): Promise<ClearCacheResponse> {
         .then(res => res.json())
 }
 
+export function getReportPdfUrl(url: string) {
+    return `${apiPath}/print?url=${url}`
+}
+
 export function fakeApi(body: any) {
     return new Promise((res, rej) => {
         setTimeout(() => {

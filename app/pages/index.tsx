@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Form, Spinner } from 'react-bootstrap'
 import { ErrorAlert, SuccessAlert } from '../components/alert'
 import Layout from '../components/layout'
-import { getUploadImageSignedUrl, uploadImageBySignedUrl } from '../services/api'
+import { getReportPdfUrl, getUploadImageSignedUrl, uploadImageBySignedUrl } from '../services/api'
 
 
 const Index = () => {
@@ -30,8 +30,13 @@ const Index = () => {
         }
       }
 
-      /**Generate report */
-
+      /**Generate and download report */
+      const previewReportUrl = `${window.location.origin}/print`
+      const downloadPdfUrl = getReportPdfUrl(previewReportUrl)
+      var link = document.createElement('a');
+      link.href = downloadPdfUrl;
+      link.download = "report.pdf";
+      link.click();
     }
 
     setIsLoading(false)
@@ -42,7 +47,7 @@ const Index = () => {
     <Layout>
       <div
         style={{
-          marginTop: '100%',
+          marginTop: '50%',
           textAlign: 'center'
         }}
       >
