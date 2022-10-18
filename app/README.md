@@ -10,7 +10,7 @@ npm install
 ```bash
 docker-compose up -f development.yml up --force-recreate
 ```
-Access from [http://localhost:4001](http://localhost:4001)
+Access from [http://localhost:4002](http://localhost:4002)
 
 ## Deployment
 1. Git push to `master`
