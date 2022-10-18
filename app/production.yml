@@ -6,8 +6,8 @@ services:
     expose:
       - 6379
 
-  nutflix:
-    container_name: nutflix
+  lapor:
+    container_name: lapor
     restart: unless-stopped
     build: 
       context: .
