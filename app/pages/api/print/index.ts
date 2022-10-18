@@ -10,11 +10,13 @@ export default async function handler(
         case 'GET':
 
             try {
-                const {
+                let {
                     url
                 } = req.query
 
-                if(!url) throw new Error(`Missing url. Provided url="${url}"`)
+                url = url?.toString()
+
+                if (!url) throw new Error(`Missing url. Provided url="${url}"`)
 
                 /**
              * 12/6/2022 daniel.kwok
