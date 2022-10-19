@@ -56,9 +56,12 @@ export default async function handler(
                 });
                 await browser.close();
 
+                const fileName = 'report.pdf'
                 res.setHeader("Content-Type", "application/pdf")
                 res.setHeader("Content-Length", pdf.length)
+                res.setHeader('Content-disposition', `attachment; filename=${fileName}`);
                 res.send(pdf);
+
             } catch (err) {
                 res.status(400).json({
                     success: false,
