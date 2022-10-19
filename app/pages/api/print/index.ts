@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import puppeteer from "puppeteer";
-import { deleteImage, getAll, listImages } from '../../../services/linode';
+import { getDeleteImageSignedUrl, listImages } from '../../../services/linode';
 
 export default async function handler(
     req: NextApiRequest,
@@ -11,6 +11,7 @@ export default async function handler(
         case 'GET':
 
             try {
+
                 let {
                     url
                 } = req.query
@@ -55,6 +56,21 @@ export default async function handler(
                     },
                 });
                 await browser.close();
+
+                /**
+                 * Delete all images once pdf is generated
+                 */
+                const r1 = await listImages()
+                const promises = r1.data.map(d => {
+                    return getDeleteImageSignedUrl(d.name)
+                        .then(r2 => {
+                            return fetch(r2.url, {
+                                method: 'DELETE'
+                            })
+                                .then(res => res.text())
+                        })
+                })
+                await Promise.all(promises)
 
                 const fileName = 'report.pdf'
                 res.setHeader("Content-Type", "application/pdf")

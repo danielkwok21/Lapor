@@ -142,10 +142,10 @@ const s3Client = new S3({
 });
 
 /**Delete one single video by fileName */
-type DeleteVideoRequest = {
+type DeleteImageRequest = {
     fileName: string
 }
-export async function deleteImage({ fileName }: DeleteVideoRequest) {
+export async function deleteImage({ fileName }: DeleteImageRequest) {
     const params: S3.DeleteObjectRequest = {
         Bucket: LINODE_CONFIG.IMAGE_BUCKET_NAME || '',
         Key: fileName,
@@ -154,25 +154,25 @@ export async function deleteImage({ fileName }: DeleteVideoRequest) {
     return s3Client.deleteObject(params).promise()
 }
 
-const getVideoImageSignedUrl = (name: string): Promise<{ url: string }> => {
+export const getUploadImageSignedURL = (content_type: string, name: string): Promise<{ url: string }> => {
     return fetch(`${LINODE_CONFIG.API_ROOT}/object-storage/buckets/${LINODE_CONFIG.CLUSTER_ID}/${LINODE_CONFIG.IMAGE_BUCKET_NAME}/object-url`, {
-        method: 'post',
+        method: 'POST',
         headers: headers,
         body: JSON.stringify({
-            method: 'GET',
+            content_type: content_type,
+            method: 'PUT',
             name: name
         })
     })
         .then(res => res.json())
 }
 
-export const getUploadImageSignedURL = (content_type: string, name: string): Promise<{ url: string }> => {
+export const getDeleteImageSignedUrl = (name: string): Promise<{ url: string }> => {
     return fetch(`${LINODE_CONFIG.API_ROOT}/object-storage/buckets/${LINODE_CONFIG.CLUSTER_ID}/${LINODE_CONFIG.IMAGE_BUCKET_NAME}/object-url`, {
-        method: 'post',
+        method: 'POST',
         headers: headers,
         body: JSON.stringify({
-            content_type: content_type,
-            method: 'PUT',
+            method: 'DELETE',
             name: name
         })
     })
